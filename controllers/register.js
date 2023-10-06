@@ -8,6 +8,7 @@ export async function PostRegisterController(req, res) {
   console.log(req.body)
   const { firstName, lastName, email, password, password_confirm } = req.body;
 
+  const errors = [];
   try {
     if (
       firstName.trim() === "" ||
@@ -42,7 +43,7 @@ export async function PostRegisterController(req, res) {
   catch (err) {
     res.status(500).send(`Erreur lors de la création du user : ${err.message}`);
   }
-} catch(err) {
+} catch (err){
   res.status(500).send(`Erreur lors de la création du user : ${err.message}`);
 
 }}

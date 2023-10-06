@@ -3,6 +3,8 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 import route from './routes/routes.js';
 
@@ -11,15 +13,13 @@ import route from './routes/routes.js';
 // ==========
 
 dotenv.config();
-const { APP_HOSTNAME, APP_PORT, NODE_ENV } = process.env;
+const { APP_HOSTNAME, APP_PORT, NODE_ENV, MONGO_STRING, MONGO_DB_NAME, SESSION_SECRET } = process.env;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
 app.set('view engine', 'pug');
 app.locals.pretty = NODE_ENV !== 'production'; // Indente correctement le HTML envoyé au client (utile en dev, mais inutile en production)
-
-const { MONGO_STRING, MONGO_DB_NAME } = process.env;
 
 try {
   await mongoose.connect(`${MONGO_STRING}${MONGO_DB_NAME}`)
@@ -35,6 +35,7 @@ catch (err) {
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
+
 // ==========
 // App routers
 // ==========
