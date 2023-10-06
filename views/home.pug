@@ -9,13 +9,17 @@ block content
   .ui.middle.aligned.center.aligned.grid
     .sixteen.wide.ten.wide.tablet.seven.wide.computer.column
       h1 Register
+      if errors && errors.length > 0
+        +message('error')
+          each error in erros
+            p= error
 
       form.ui.large.form(method="post" action="/register")
         .ui.segment
-          +field('text', 'firstName', 'First name')
-          +field('text', 'lastName', 'Last name')
-          +field('email', 'email', 'your.email@address.tld')
-          +field('password', 'password', 'Password')
-          +field('password', 'password_confirm', 'Confirm password')
+          +field('text', 'firstName', 'First name' fields?.firstName)
+          +field('text', 'lastName', 'Last name' fields?.lastName)
+          +field('email', 'email', 'your.email@address.tld' fields?.email)
+          +field('password', 'password', 'Password' fields?.password)
+          +field('password', 'password_confirm', 'Confirm password' fields?.password_confirm)
           button(type="submit").ui.fluid.large.teal.submit.button
             | Login
